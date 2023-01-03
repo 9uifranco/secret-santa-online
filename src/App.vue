@@ -333,9 +333,9 @@
   const sendSecrets = () => {
     const partsPromises = participants.value.map(function(part) {
       return Email.send({
-        SecureToken: process.env.VUE_APP_SECURE_TOKEN,
+        SecureToken: import.meta.env.VITE_SECURE_TOKEN,
         To: part.email,
-        From: process.env.VUE_APP_EMAIL,
+        From: import.meta.env.VITE_EMAIL,
         Subject: "Secret Santa Online",
         Body: part.secretName
       }).then(function () {
@@ -422,12 +422,9 @@
     <transition-group class="self-center" tag="div" name="list" mode="out-in">
       <div class="flex flex-col border self-center w-80" v-for="part in participants" :key="part">
         <div class="flex justify-between">
-
-            <span class="font-semibold p-1 text-md">Participant {{part.id + 1}}</span>
-
+          <span class="font-semibold p-1 text-md">Participant {{part.id + 1}}</span>
           <img @click="deleteParticipant(part)" class="w-3 h-3 m-2 cursor-pointer" src="./assets/delete-icon.png" alt="delete-icon">
         </div>
-        
         <div class="flex gap-3 p-1 justify-between">
           <span class="w-16">Name: </span>
           <input @blur="correctNameOnFocusOut(part)" @input="validateNames" :class="{'border-red-500' : !part.nameValid}" class="grow border rounded" v-model="part.name"  type="text">
